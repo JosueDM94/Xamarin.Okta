@@ -1,22 +1,19 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
+using Bumptech.Glide;
 using Java.Util.Concurrent.Atomic;
 using Okta.AppAuth;
 using OpenId.AppAuth;
 using Org.Json;
+using AndroidNet = Android.Net;
 
 namespace Sample.Android
 {
@@ -111,7 +108,9 @@ namespace Sample.Android
 
         private void clearData()
         {
-            mOktaAppAuth.re
+
+            mOktaAppAuth.Revoke(new OktaRevokeListener(this));
+            
         }
 
         private void displayLoading(string message)
@@ -190,10 +189,10 @@ namespace Sample.Android
 
                     if (userInfo.Has("picture"))
                     {
-                        Glide.with(UserInfoActivity)
-                                .load(Uri.parse(userInfo.GetString("picture")))
-                                .fitCenter()
-                                .into((ImageView)FindViewById(Resource.Id.userinfo_profile));
+                        Glide.With(this)
+                                .Load(AndroidNet.Uri.Parse(userInfo.GetString("picture")))
+                                .FitCenter()
+                                .Into((ImageView)FindViewById(Resource.Id.userinfo_profile));
                     }
 
                     ((TextView)FindViewById(Resource.Id.userinfo_json)).Text = mUserInfoJson.ToString();
@@ -270,6 +269,26 @@ namespace Sample.Android
             }
         }
 
-        private class OktaRevokeListener : OktaAppAuth.IBearerAuthRequest
+        private class OktaRevokeListener : Java.Lang.Object, OktaAppAuth.IOktaRevokeListener
+        {
+            private UserInfoActivity Activity;
+
+            public OktaRevokeListener(UserInfoActivity activity)
+            {
+                Activity = activity;
+            }
+
+            public void OnError(AuthorizationException p0)
+            {
+                Activity.showSnackbar("Unable to clean data");
+            }
+
+            public void OnSuccess()
+            {
+                Activity.mOktaAppAuth.ClearSession();
+                Activity.StartActivity(new Intent(Activity, typeof(StartActivity)));
+                Activity.Finish();
+            }
+        }
     }
 }

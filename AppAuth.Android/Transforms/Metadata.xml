@@ -25,12 +25,14 @@
     
     <!-- private types -->
     <remove-node path="/api/package[starts-with(@name, 'net.openid.appauth.internal')]" />
-    <!-- <remove-node path="/api/package[@name='net.openid.appauth']/class[@visibility='private']" /> -->
+    
+    <!-- visibility -->
+    <attr path="/api/package[@name='com.okta.appauth.android']/class[@name='RevokeTokenRequest']" name="visibility">public</attr>
     
     <!--Error CS0535: 'DelimitedVersion' does not implement interface member 'IComparable.CompareTo(Object)'-->
     <attr path="/api/package[@name='net.openid.appauth.browser']/class[@name='DelimitedVersion']/method[@name='compareTo']/parameter[1]" name="managedType">Java.Lang.Object</attr>     
     
     <!-- Error CS0102: The type 'OktaAppAuth.TokenFailureEventArgs' already contains a definition for 'p0' -->    
-    <attr path="/api/package[@name='com.okta.appauth.android']/interface[@name='OktaAppAuth.OktaAuthListener']/method[@name='onTokenFailure' and count(parameter)=1 and parameter[1][@type='net.openid.appauth.AuthorizationException']]" name="argsType">AuthFailureEventArgs</attr>
+    <attr path="/api/package[@name='com.okta.appauth.android']/interface[@name='OktaAppAuth.OktaAuthListener']/method[@name='onTokenFailure' and count(parameter)=1 and parameter[1][@type='net.openid.appauth.AuthorizationException']]" name="argsType">AuthFailureEventArgs</attr>    
     <attr path="/api/package[@name='com.okta.appauth.android']/interface[@name='OktaAppAuth.OktaNativeAuthListener']/method[@name='onTokenFailure' and count(parameter)=1 and parameter[1][@type='com.okta.appauth.android.AuthenticationError']]" name="argsType">NativeAuthFailureEventArgs</attr>
 </metadata>

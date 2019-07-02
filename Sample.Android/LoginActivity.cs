@@ -66,7 +66,7 @@ namespace Sample.Android
 
         private void initializeOktaAuth()
         {
-            Log.i(Tag, "Initializing OktaAppAuth");
+            Log.Info(Tag, "Initializing OktaAppAuth");
             displayLoading(GetString(Resource.String.loading_initializing));
 
             mOktaAppAuth.Init(this,this,getColorCompat(Resource.Color.colorPrimary));
