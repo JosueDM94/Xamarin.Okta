@@ -1,21 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using Android.OS;
 using Android.App;
+using Android.Views;
 using Android.Content;
 using Android.Content.PM;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using Android.Support.V7.App;
 
 namespace Sample.Android
 {
     [Activity(Label = "@string/app_name_short", MainLauncher = true, LaunchMode = LaunchMode.SingleInstance, WindowSoftInputMode = SoftInput.StateHidden)]
-    public class StartActivity : Activity
+    public class StartActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

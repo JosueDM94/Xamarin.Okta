@@ -24,10 +24,7 @@
     <attr path="/api/package[@name='net.openid.appauth.connectivity']/interface[@name='ConnectionBuilder']/method[@name='openConnection']/parameter[1]" name="managedName">uri</attr>
     
     <!-- private types -->
-    <remove-node path="/api/package[starts-with(@name, 'net.openid.appauth.internal')]" />
-    
-    <!-- visibility -->
-    <attr path="/api/package[@name='com.okta.appauth.android']/class[@name='RevokeTokenRequest']" name="visibility">public</attr>
+    <remove-node path="/api/package[starts-with(@name,'net.openid.appauth.internal')]" />
     
     <!--Error CS0535: 'DelimitedVersion' does not implement interface member 'IComparable.CompareTo(Object)'-->
     <attr path="/api/package[@name='net.openid.appauth.browser']/class[@name='DelimitedVersion']/method[@name='compareTo']/parameter[1]" name="managedType">Java.Lang.Object</attr>     

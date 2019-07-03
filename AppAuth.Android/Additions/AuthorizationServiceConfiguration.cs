@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace OpenId.AppAuth
 {
-    partial class AuthorizationServiceConfiguration
+    public partial class AuthorizationServiceConfiguration : global::Java.Lang.Object
     {
         public static void FetchFromIssuer(Android.Net.Uri openIdConnectIssuerUri, Action<AuthorizationServiceConfiguration, AuthorizationException> callback)
         {

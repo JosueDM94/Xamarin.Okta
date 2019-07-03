@@ -1,24 +1,26 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Support.Design.Widget;
+using Android.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Bumptech.Glide;
-using Java.Util.Concurrent.Atomic;
+using Android.Content;
+using Android.Support.V7.App;
+using AndroidNet = Android.Net;
+using Android.Support.Design.Widget;
+
+using Org.Json;
 using Okta.AppAuth;
 using OpenId.AppAuth;
-using Org.Json;
-using AndroidNet = Android.Net;
+using Bumptech.Glide;
+using Newtonsoft.Json.Linq;
 
 namespace Sample.Android
 {
     [Activity(Label = "@string/app_name_short", WindowSoftInputMode = SoftInput.StateHidden)]
-    public class UserInfoActivity : Activity
+    public class UserInfoActivity : AppCompatActivity
     {
         private static string Tag = "UserInfoActivity";
         private static string KeyUserInfo = "userInfo";
@@ -26,8 +28,8 @@ namespace Sample.Android
 
         private static DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        private OktaAppAuth mOktaAppAuth;
-        public AtomicReference mUserInfoJson = new AtomicReference();
+        public OktaAppAuth mOktaAppAuth;
+        public Dictionary<string,string> mUserInfoJson = new Dictionary<string, string>();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -49,7 +51,7 @@ namespace Sample.Android
             {
                 try
                 {
-                    mUserInfoJson.Set(new JSONObject(savedInstanceState.GetString(KeyUserInfo)));
+                    mUserInfoJson[KeyUserInfo]= savedInstanceState.GetString(KeyUserInfo);
                 }
                 catch (JSONException ex)
                 {
@@ -76,25 +78,25 @@ namespace Sample.Android
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            if (mUserInfoJson.Get() != null)
+            if (mUserInfoJson[KeyUserInfo] != null)
             {
-                outState.PutString(KeyUserInfo, mUserInfoJson.ToString());
+                outState.PutString(KeyUserInfo, mUserInfoJson[KeyUserInfo]);
             }
         }
 
-        private void refreshAccessToken()
+        public void refreshAccessToken()
         {
             displayLoading("Refreshing access token");
             mOktaAppAuth.RefreshAccessToken(new OktaAuthListener(this));
         }
 
-        private void fetchUserInfo()
+        public void fetchUserInfo()
         {
             displayLoading(GetString(Resource.String.user_info_loading));
             mOktaAppAuth.GetUserInfo(new OktaAuthActionCallback(this));
         }
 
-        private void signOut()
+        public void signOut()
         {
             displayLoading("Ending current session");
             Intent completionIntent = new Intent(this, typeof(LoginActivity));
@@ -106,21 +108,19 @@ namespace Sample.Android
             mOktaAppAuth.SignOutFromOkta(this, PendingIntent.GetActivity(this, 0, completionIntent, 0), PendingIntent.GetActivity(this, 0, cancelIntent, 0));
         }
 
-        private void clearData()
+        public void clearData()
         {
-
-            mOktaAppAuth.Revoke(new OktaRevokeListener(this));
-            
+            mOktaAppAuth.Revoke(new OktaRevokeListener(this));            
         }
 
-        private void displayLoading(string message)
+        public void displayLoading(string message)
         {
             FindViewById(Resource.Id.loading_container).Visibility = ViewStates.Visible;
             FindViewById(Resource.Id.authorized).Visibility = ViewStates.Gone;
             FindViewById<TextView>(Resource.Id.loading_description).Text = message;
         }
 
-        private void displayAuthorizationInfo()
+        public void displayAuthorizationInfo()
         {
             FindViewById(Resource.Id.authorized).Visibility = ViewStates.Visible;
             FindViewById(Resource.Id.loading_container).Visibility = ViewStates.Gone;
@@ -171,7 +171,9 @@ namespace Sample.Android
             FindViewById(Resource.Id.sign_out).Click += (sender,args) => { signOut(); };
 
             View userInfoCard = FindViewById(Resource.Id.userinfo_card);
-            JSONObject userInfo = (JSONObject)mUserInfoJson.Get();
+            if (mUserInfoJson.Count <= 0)
+                return;
+            JObject userInfo = JObject.Parse(mUserInfoJson.GetValueOrDefault(KeyUserInfo));
             if (userInfo == null)
             {
                 userInfoCard.Visibility = ViewStates.Invisible;
@@ -181,21 +183,21 @@ namespace Sample.Android
                 try
                 {
                     string name = "???";
-                    if (userInfo.Has("name"))
+                    if (userInfo.Value<string>("name") != null)
                     {
-                        name = userInfo.GetString("name");
+                        name = userInfo.Value<string>("name");
                     }
                     ((TextView)FindViewById(Resource.Id.userinfo_name)).Text = name;
 
-                    if (userInfo.Has("picture"))
+                    if (userInfo.Value<string>("picture") != null)
                     {
                         Glide.With(this)
-                                .Load(AndroidNet.Uri.Parse(userInfo.GetString("picture")))
+                                .Load(AndroidNet.Uri.Parse(userInfo.Value<string>("picture")))
                                 .FitCenter()
                                 .Into((ImageView)FindViewById(Resource.Id.userinfo_profile));
                     }
 
-                    ((TextView)FindViewById(Resource.Id.userinfo_json)).Text = mUserInfoJson.ToString();
+                    ((TextView)FindViewById(Resource.Id.userinfo_json)).Text = mUserInfoJson[KeyUserInfo];
                     userInfoCard.Visibility = ViewStates.Visible;
                 }
                 catch (JSONException ex)
@@ -205,7 +207,7 @@ namespace Sample.Android
             }
         }
 
-        private void showSnackbar(string message)
+        public void showSnackbar(string message)
         {
             Window.DecorView.Post(()=>
             {
@@ -213,7 +215,7 @@ namespace Sample.Android
             });
         }
 
-        private class OktaAuthListener : Java.Lang.Object, OktaAppAuth.IOktaAuthListener
+        public class OktaAuthListener : Java.Lang.Object, OktaAppAuth.IOktaAuthListener
         {
             private UserInfoActivity Activity;
 
@@ -233,7 +235,7 @@ namespace Sample.Android
             }        
         }
 
-        private class OktaAuthActionCallback : Java.Lang.Object, OktaAppAuth.IOktaAuthActionCallback
+        public class OktaAuthActionCallback : Java.Lang.Object, OktaAppAuth.IOktaAuthActionCallback
         {
             private UserInfoActivity Activity;
 
@@ -245,23 +247,23 @@ namespace Sample.Android
             public void OnFailure(int p0, Java.Lang.Exception p1)
             {
                 // Do whatever you need to do with the user info data
-                Activity.mUserInfoJson.Set(p0);
-                Activity.RunOnUiThread(() => Activity.displayAuthorizationInfo());
-            }
-
-            public void OnSuccess(Java.Lang.Object p0)
-            {
-                Activity.mUserInfoJson.Set(null);
+                Activity.mUserInfoJson[KeyUserInfo] = null;
                 Activity.RunOnUiThread(() => {
                     Activity.displayAuthorizationInfo();
                     Activity.showSnackbar(Activity.GetString(Resource.String.token_failure_message));
                 });
             }
 
+            public void OnSuccess(Java.Lang.Object p0)
+            {
+                Activity.mUserInfoJson[KeyUserInfo] = (p0 as JSONObject).ToString();
+                Activity.RunOnUiThread(() => Activity.displayAuthorizationInfo());                
+            }
+
             public void OnTokenFailure(AuthorizationException p0)
             {
                 // Handle a network error when fetching the user info data
-                Activity.mUserInfoJson.Set(null);
+                Activity.mUserInfoJson[KeyUserInfo] = null;
                 Activity.RunOnUiThread(()=> {
                     Activity.displayAuthorizationInfo();
                     Activity.showSnackbar(Activity.GetString(Resource.String.network_failure_message));
@@ -269,7 +271,7 @@ namespace Sample.Android
             }
         }
 
-        private class OktaRevokeListener : Java.Lang.Object, OktaAppAuth.IOktaRevokeListener
+        public class OktaRevokeListener : Java.Lang.Object, OktaAppAuth.IOktaRevokeListener
         {
             private UserInfoActivity Activity;
 

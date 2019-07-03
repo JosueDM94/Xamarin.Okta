@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace OpenId.AppAuth
 {
-    partial class AuthorizationService
+    public partial class AuthorizationService : global::Java.Lang.Object
     {
         public void PerformRegistrationRequest(RegistrationRequest request, Action<RegistrationResponse, AuthorizationException> callback)
         {

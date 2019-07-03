@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenId.AppAuth
 {
-    partial class AuthState
+    public partial class AuthState : global::Java.Lang.Object
     {
         public void PerformActionWithFreshTokens(AuthorizationService service, Action<string, string, AuthorizationException> callback)
         {

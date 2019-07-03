@@ -1,8 +1,8 @@
-﻿using System;
-using CoreFoundation;
+﻿using UIKit;
+using System;
 using Foundation;
 using ObjCRuntime;
-using UIKit;
+using CoreFoundation;
 
 namespace OktaOidc
 {
@@ -169,9 +169,11 @@ namespace OktaOidc
         string RedirectScheme { get; }
     }
 
+    interface IOIDExternalUserAgentRequest { }
+
     [Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface OIDResponseType
     {
         // extern NSString *const OIDResponseTypeCode;
         [Field("OIDResponseTypeCode", "__Internal")]
@@ -419,7 +421,7 @@ namespace OktaOidc
 
     [Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface OIDError
     {
         // extern NSString *const _Nonnull OIDGeneralErrorDomain;
         [Field("OIDGeneralErrorDomain", "__Internal")]
@@ -460,13 +462,8 @@ namespace OktaOidc
         // extern NSString *const _Nonnull OIDOAuthErrorFieldErrorURI;
         [Field("OIDOAuthErrorFieldErrorURI", "__Internal")]
         NSString OIDOAuthErrorFieldErrorURI { get; }
-    }
 
-    [Static]
-    //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
-    {
-        // extern NSString *const _Nonnull OIDOAuthExceptionInvalidAuthorizationFlow;
+        // extern NSString* const _Nonnull OIDOAuthExceptionInvalidAuthorizationFlow;
         [Field("OIDOAuthExceptionInvalidAuthorizationFlow", "__Internal")]
         NSString OIDOAuthExceptionInvalidAuthorizationFlow { get; }
 
@@ -536,6 +533,8 @@ namespace OktaOidc
         void DismissExternalUserAgentAnimated(bool animated, Action completion);
     }
 
+    interface IOIDExternalUserAgent { }
+
     // @protocol OIDExternalUserAgentSession <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
@@ -559,7 +558,7 @@ namespace OktaOidc
 
     [Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface OIDGrantType
     {
         // extern NSString *const OIDGrantTypeAuthorizationCode;
         [Field("OIDGrantTypeAuthorizationCode", "__Internal")]
@@ -605,7 +604,7 @@ namespace OktaOidc
 
         // @property (readonly, nonatomic) NSArray * _Nonnull audience;
         [Export("audience")]
-        [Verify(StronglyTypedNSArray)]
+        //[Verify(StronglyTypedNSArray)]
         NSObject[] Audience { get; }
 
         // @property (readonly, nonatomic) NSDate * _Nonnull expiresAt;
@@ -679,7 +678,7 @@ namespace OktaOidc
 
     [Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface OIDRegistrationResponseParameters
     {
         // extern NSString *const _Nonnull OIDClientIDParam;
         [Field("OIDClientIDParam", "__Internal")]
@@ -806,8 +805,8 @@ namespace OktaOidc
         IntPtr Constructor(NSUrl authorizationEndpoint, NSUrl tokenEndpoint);
 
         // -(instancetype _Nonnull)initWithAuthorizationEndpoint:(NSURL * _Nonnull)authorizationEndpoint tokenEndpoint:(NSURL * _Nonnull)tokenEndpoint registrationEndpoint:(NSURL * _Nullable)registrationEndpoint;
-        [Export("initWithAuthorizationEndpoint:tokenEndpoint:registrationEndpoint:")]
-        IntPtr Constructor(NSUrl authorizationEndpoint, NSUrl tokenEndpoint, [NullAllowed] NSUrl registrationEndpoint);
+        //[Export("initWithAuthorizationEndpoint:tokenEndpoint:registrationEndpoint:")]
+        //IntPtr Constructor(NSUrl authorizationEndpoint, NSUrl tokenEndpoint, [NullAllowed] NSUrl registrationEndpoint);
 
         // -(instancetype _Nonnull)initWithAuthorizationEndpoint:(NSURL * _Nonnull)authorizationEndpoint tokenEndpoint:(NSURL * _Nonnull)tokenEndpoint issuer:(NSURL * _Nullable)issuer;
         [Export("initWithAuthorizationEndpoint:tokenEndpoint:issuer:")]
@@ -1143,7 +1142,7 @@ namespace OktaOidc
 
     [Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface OIDClientMetadataParameters
     {
         // extern NSString *const _Nonnull OIDTokenEndpointAuthenticationMethodParam;
         [Field("OIDTokenEndpointAuthenticationMethodParam", "__Internal")]
@@ -1254,7 +1253,7 @@ namespace OktaOidc
     // @interface OIDFieldMapping : NSObject
     [BaseType(typeof(NSObject))]
     [DisableDefaultCtor]
-    interface OIDFieldMapping
+    interface OIDFieldMapping : INativeObject
     {
         // @property (readonly, nonatomic) NSString * _Nonnull name;
         [Export("name")]
@@ -1317,19 +1316,14 @@ namespace OktaOidc
         OIDFieldMappingConversionFunction DateEpochConversion { get; }
     }
 
-    [Static]
-    //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
-    {
-        // extern BOOL gOIDURLQueryComponentForceIOS7Handling;
-        [Field("gOIDURLQueryComponentForceIOS7Handling", "__Internal")]
-        bool gOIDURLQueryComponentForceIOS7Handling { get; }
-    }
-
     // @interface OIDURLQueryComponent : NSObject
     [BaseType(typeof(NSObject))]
     interface OIDURLQueryComponent
     {
+        // extern BOOL gOIDURLQueryComponentForceIOS7Handling;
+        //[Field("gOIDURLQueryComponentForceIOS7Handling", "__Internal")]
+        //bool ForceiOS7Handling { get; }
+
         // @property (readonly, nonatomic) NSArray<NSString *> * _Nonnull parameters;
         [Export("parameters")]
         string[] Parameters { get; }
@@ -1370,18 +1364,18 @@ namespace OktaOidc
         NSMutableCharacterSet URLParamValueAllowedCharacters { get; }
     }
 
-    [Static]
+    //[Static]
     //[Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
-    {
-        // extern double OktaOidcVersionNumber;
-        [Field("OktaOidcVersionNumber", "__Internal")]
-        double OktaOidcVersionNumber { get; }
+    //partial interface Constants
+    //{
+    //    // extern double OktaOidcVersionNumber;
+    //    [Field("OktaOidcVersionNumber", "__Internal")]
+    //    double OktaOidcVersionNumber { get; }
 
-        // extern const unsigned char [] OktaOidcVersionString;
-        [Field("OktaOidcVersionString", "__Internal")]
-        byte[] OktaOidcVersionString { get; }
-    }
+    //    // extern const unsigned char [] OktaOidcVersionString;
+    //    [Field("OktaOidcVersionString", "__Internal")]
+    //    byte[] OktaOidcVersionString { get; }
+    //}
 
     // @interface OktaOidc : NSObject
     [BaseType(typeof(NSObject))]
@@ -1490,7 +1484,7 @@ namespace OktaOidc
 
         // @property (nonatomic) CFStringRef _Nonnull accessibility;
         [Export("accessibility", ArgumentSemantic.Assign)]
-        unsafe CFStringRef* Accessibility { get; set; }
+        unsafe IntPtr Accessibility { get; set; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nullable accessToken;
         [NullAllowed, Export("accessToken")]
@@ -1507,7 +1501,7 @@ namespace OktaOidc
         // -(instancetype _Nonnull)initWithAuthState:(OIDAuthState * _Nonnull)authState accessibility:(CFStringRef _Nonnull)accessibility __attribute__((objc_designated_initializer));
         [Export("initWithAuthState:accessibility:")]
         [DesignatedInitializer]
-        unsafe IntPtr Constructor(OIDAuthState authState, CFStringRef* accessibility);
+        unsafe IntPtr Constructor(OIDAuthState authState, ref IntPtr accessibility);
 
         // -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder;
         [Export("initWithCoder:")]
