@@ -115,9 +115,14 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
             <Visible>false</Visible>
         </ImageAsset>
+        <ImageAsset Include="Assets.xcassets\Icon.imageset\Contents.json" />
+        <ImageAsset Include="Assets.xcassets\Icon.imageset\dev.png" />
+        <ImageAsset Include="Assets.xcassets\Icon.imageset\dev-1.png" />
+        <ImageAsset Include="Assets.xcassets\Icon.imageset\dev-2.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
+        <Folder Include="Assets.xcassets\Icon.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -126,6 +131,7 @@
     <ItemGroup>
         <None Include="Info.plist" />
         <None Include="Entitlements.plist" />
+        <None Include="Okta.plist" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Main.cs" />
@@ -134,6 +140,16 @@
         <Compile Include="ViewController.designer.cs">
             <DependentUpon>ViewController.cs</DependentUpon>
         </Compile>
+        <Compile Include="AuthViewController.cs" />
+        <Compile Include="AuthViewController.designer.cs">
+          <DependentUpon>AuthViewController.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\OktaOidc.iOS\OktaOidc.iOS.csproj">
+        <Project>{48B4C944-20C3-4475-B52C-522BFB206EA1}</Project>
+        <Name>OktaOidc.iOS</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

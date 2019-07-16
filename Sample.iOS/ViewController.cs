@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Okta.Oidc;
 using System;
 using UIKit;
 
@@ -6,6 +7,9 @@ namespace Sample.iOS
 {
     public partial class ViewController : UIViewController
     {
+        private OktaOidc oktaAppAuth;
+        private OktaOidcStateManager authStateManager;
+
         public ViewController(IntPtr handle) : base(handle)
         {
         }
@@ -13,13 +17,22 @@ namespace Sample.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            // Perform any additional setup after loading the view, typically from a nib.
+            oktaAppAuth = new OktaOidc(null, out NSError error);
+            AppDelegate.Shared.oktaOidc = oktaAppAuth;
+            if(oktaAppAuth?.Configuration != null )
+            {
+                authStateManager = authStateManager.ReadFromSecureStorageFor(oktaAppAuth?.Configuration);
+            }
         }
 
-        public override void DidReceiveMemoryWarning()
+        public override void ViewWillAppear(bool animated)
         {
-            base.DidReceiveMemoryWarning();
-            // Release any cached data, images, etc that aren't in use.
+            base.ViewWillAppear(animated);
+        }
+
+        partial void signOutOktaButton(UIButton sender)
+        {
+            Console.WriteLine("signOut");
         }
     }
 }

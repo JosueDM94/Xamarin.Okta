@@ -59,6 +59,11 @@ namespace Sample.Android
             base.OnDestroy();
         }
 
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+        }
+
         private void LoginActivity_Click(object sender, EventArgs e)
         {
             startAuth();

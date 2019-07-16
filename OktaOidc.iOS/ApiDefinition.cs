@@ -4,7 +4,7 @@ using Foundation;
 using ObjCRuntime;
 using CoreFoundation;
 
-namespace OktaOidc
+namespace Okta.Oidc
 {
     // typedef void (^OIDAuthStateAction)(NSString * _Nullable, NSString * _Nullable, NSError * _Nullable);
     delegate void OIDAuthStateAction([NullAllowed] string arg0, [NullAllowed] string arg1, [NullAllowed] NSError arg2);
@@ -64,7 +64,7 @@ namespace OktaOidc
         // +(id<OIDExternalUserAgentSession> _Nonnull)authStateByPresentingAuthorizationRequest:(OIDAuthorizationRequest * _Nonnull)authorizationRequest externalUserAgent:(id<OIDExternalUserAgent> _Nonnull)externalUserAgent callback:(OIDAuthStateAuthorizationCallback _Nonnull)callback;
         [Static]
         [Export("authStateByPresentingAuthorizationRequest:externalUserAgent:callback:")]
-        OIDExternalUserAgentSession AuthStateByPresentingAuthorizationRequest(OIDAuthorizationRequest authorizationRequest, OIDExternalUserAgent externalUserAgent, OIDAuthStateAuthorizationCallback callback);
+        OIDExternalUserAgentSession AuthStateByPresentingAuthorizationRequest(OIDAuthorizationRequest authorizationRequest, IOIDExternalUserAgent externalUserAgent, OIDAuthStateAuthorizationCallback callback);
 
         // -(instancetype _Nonnull)initWithAuthorizationResponse:(OIDAuthorizationResponse * _Nonnull)authorizationResponse;
         [Export("initWithAuthorizationResponse:")]
@@ -396,12 +396,12 @@ namespace OktaOidc
         // +(id<OIDExternalUserAgentSession> _Nonnull)presentAuthorizationRequest:(OIDAuthorizationRequest * _Nonnull)request externalUserAgent:(id<OIDExternalUserAgent> _Nonnull)externalUserAgent callback:(OIDAuthorizationCallback _Nonnull)callback;
         [Static]
         [Export("presentAuthorizationRequest:externalUserAgent:callback:")]
-        OIDExternalUserAgentSession PresentAuthorizationRequest(OIDAuthorizationRequest request, OIDExternalUserAgent externalUserAgent, OIDAuthorizationCallback callback);
+        OIDExternalUserAgentSession PresentAuthorizationRequest(OIDAuthorizationRequest request, IOIDExternalUserAgent externalUserAgent, OIDAuthorizationCallback callback);
 
         // +(id<OIDExternalUserAgentSession> _Nonnull)presentEndSessionRequest:(OIDEndSessionRequest * _Nonnull)request externalUserAgent:(id<OIDExternalUserAgent> _Nonnull)externalUserAgent callback:(OIDEndSessionCallback _Nonnull)callback;
         [Static]
         [Export("presentEndSessionRequest:externalUserAgent:callback:")]
-        OIDExternalUserAgentSession PresentEndSessionRequest(OIDEndSessionRequest request, OIDExternalUserAgent externalUserAgent, OIDEndSessionCallback callback);
+        OIDExternalUserAgentSession PresentEndSessionRequest(OIDEndSessionRequest request, IOIDExternalUserAgent externalUserAgent, OIDEndSessionCallback callback);
 
         // +(void)performTokenRequest:(OIDTokenRequest * _Nonnull)request callback:(OIDTokenCallback _Nonnull)callback;
         [Static]
@@ -525,7 +525,7 @@ namespace OktaOidc
         // @required -(BOOL)presentExternalUserAgentRequest:(id<OIDExternalUserAgentRequest> _Nonnull)request session:(id<OIDExternalUserAgentSession> _Nonnull)session;
         [Abstract]
         [Export("presentExternalUserAgentRequest:session:")]
-        bool PresentExternalUserAgentRequest(OIDExternalUserAgentRequest request, OIDExternalUserAgentSession session);
+        bool PresentExternalUserAgentRequest(IOIDExternalUserAgentRequest request, OIDExternalUserAgentSession session);
 
         // @required -(void)dismissExternalUserAgentAnimated:(BOOL)animated completion:(void (^ _Nonnull)(void))completion;
         [Abstract]
@@ -1406,7 +1406,7 @@ namespace OktaOidc
         // -(BOOL)resume:(NSURL * _Nonnull)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> * _Nonnull)options __attribute__((availability(ios, obsoleted=11.0))) __attribute__((warn_unused_result));
         [Obsoleted(PlatformName.iOS, 11, 0, message: "Unused on iOS 11+")]
         [Export("resume:options:")]
-        bool Resume(NSUrl url, NSDictionary<NSString, NSObject> options);
+        bool Resume(NSUrl url, NSDictionary options);
 
         // +(instancetype _Nonnull)new __attribute__((deprecated("-init is unavailable")));
         [Static]
@@ -1504,12 +1504,12 @@ namespace OktaOidc
         unsafe IntPtr Constructor(OIDAuthState authState, ref IntPtr accessibility);
 
         // -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder;
-        [Export("initWithCoder:")]
-        IntPtr Constructor(NSCoder decoder);
+        //[Export("initWithCoder:")]
+        //IntPtr Constructor(NSCoder decoder);
 
         // -(void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-        [Export("encodeWithCoder:")]
-        void EncodeWithCoder(NSCoder coder);
+        //[Export("encodeWithCoder:")]
+        //void EncodeWithCoder(NSCoder coder);
 
         // -(NSError * _Nullable)validateTokenWithIdToken:(NSString * _Nullable)idToken __attribute__((warn_unused_result));
         [Export("validateTokenWithIdToken:")]
@@ -1546,6 +1546,28 @@ namespace OktaOidc
         [Static]
         [Export("new")]
         OktaOidcStateManager New();
+    }
+
+    // @interface OktaOidcStateManagerExtensions (OktaOidcStateManager)
+    [Category]
+    [BaseType(typeof(OktaOidcStateManager))]
+    interface OktaOidcStateManagerExtensions
+    {
+        // +(OktaOidcStateManager * _Nullable)readFromSecureStorage __attribute__((warn_unused_result));
+        [Static]
+        [NullAllowed, Export("readFromSecureStorage")]
+        //[Verify(MethodToProperty)]
+        OktaOidcStateManager ReadFromSecureStorage { get; }
+
+        // +(OktaOidcStateManager * _Nullable)readFromSecureStorageFor:(OktaOidcConfig * _Nonnull)config __attribute__((warn_unused_result));
+        [Static]
+        [Export("readFromSecureStorageFor:")]
+        [return: NullAllowed]
+        OktaOidcStateManager ReadFromSecureStorageFor(OktaOidcConfig config);
+
+        // -(void)writeToSecureStorage;
+        [Export("writeToSecureStorage")]
+        void WriteToSecureStorage();
     }
 
     // @interface OktaOidcUtils : NSObject

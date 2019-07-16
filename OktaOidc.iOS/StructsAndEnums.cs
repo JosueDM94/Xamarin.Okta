@@ -1,6 +1,6 @@
 ﻿using ObjCRuntime;
 
-namespace OktaOidc
+namespace Okta.Oidc
 {
     [Native]
     public enum OIDErrorCode : long

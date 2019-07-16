@@ -78,10 +78,15 @@ namespace Sample.Android
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            if (mUserInfoJson[KeyUserInfo] != null)
+            if (mUserInfoJson.Count > 0 && mUserInfoJson[KeyUserInfo] != null)
             {
                 outState.PutString(KeyUserInfo, mUserInfoJson[KeyUserInfo]);
             }
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
         }
 
         public void refreshAccessToken()
