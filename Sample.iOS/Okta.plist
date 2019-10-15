@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>scopes</key>
-	<string>openid profile</string>
+	<string>openid profile offline_access</string>
 	<key>redirectUri</key>
-	<string>{redirectUri}</string>
+	<string>{scheme}:/callback</string>
 	<key>clientId</key>
 	<string>{clientId}</string>
 	<key>issuer</key>
-	<string>{issuer}</string>
+	<string>https://{yourOktaDomain}/oauth2/default</string>
 	<key>logoutRedirectUri</key>
-	<string>{logoutUri}</string>
+	<string>{scheme}:/logout</string>
 </dict>
 </plist>

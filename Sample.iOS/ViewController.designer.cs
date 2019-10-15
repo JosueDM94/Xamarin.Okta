@@ -18,23 +18,23 @@ namespace Sample.iOS
 		[Outlet]
 		UIKit.UITextView tokenView { get; set; }
 
-		[Action ("clearTokens:")]
-		partial void clearTokens (UIKit.UIButton sender);
+		[Action ("ClearButton:")]
+		partial void ClearButton (Foundation.NSObject sender);
 
-		[Action ("introspectButton:")]
-		partial void introspectButton (UIKit.UIButton sender);
+		[Action ("IntrospectButton:")]
+		partial void IntrospectButton (UIKit.UIButton sender);
 
-		[Action ("revokeButton:")]
-		partial void revokeButton (UIKit.UIButton sender);
+		[Action ("RevokeButton:")]
+		partial void RevokeButton (UIKit.UIButton sender);
 
-		[Action ("signInButton:")]
-		partial void signInButton (UIKit.UIButton sender);
+		[Action ("SignInButton:")]
+		partial void SignInButton (UIKit.UIButton sender);
 
-		[Action ("signOutOktaButton:")]
-		partial void signOutOktaButton (UIKit.UIButton sender);
+		[Action ("SignOutButton:")]
+		partial void SignOutButton (UIKit.UIButton sender);
 
-		[Action ("userInfoButton:")]
-		partial void userInfoButton (UIKit.UIButton sender);
+		[Action ("UserInfoButton:")]
+		partial void UserInfoButton (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

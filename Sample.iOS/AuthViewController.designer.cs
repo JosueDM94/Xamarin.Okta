@@ -27,14 +27,19 @@ namespace Sample.iOS
 		[Outlet]
 		UIKit.UITextView tokenTextView { get; set; }
 
-		[Action ("authenticate:")]
-		partial void authenticate (UIKit.UIButton sender);
+		[Action ("Authenticate:")]
+		partial void Authenticate (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (progressOverlay != null) {
-				progressOverlay.Dispose ();
-				progressOverlay = null;
+			if (authenticateButton != null) {
+				authenticateButton.Dispose ();
+				authenticateButton = null;
+			}
+
+			if (messageView != null) {
+				messageView.Dispose ();
+				messageView = null;
 			}
 
 			if (progressIndicator != null) {
@@ -42,19 +47,14 @@ namespace Sample.iOS
 				progressIndicator = null;
 			}
 
-			if (authenticateButton != null) {
-				authenticateButton.Dispose ();
-				authenticateButton = null;
+			if (progressOverlay != null) {
+				progressOverlay.Dispose ();
+				progressOverlay = null;
 			}
 
 			if (tokenTextView != null) {
 				tokenTextView.Dispose ();
 				tokenTextView = null;
-			}
-
-			if (messageView != null) {
-				messageView.Dispose ();
-				messageView = null;
 			}
 		}
 	}

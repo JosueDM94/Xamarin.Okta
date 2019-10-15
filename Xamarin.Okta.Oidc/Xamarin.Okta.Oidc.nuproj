@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE62FB5E-A0FE-4921-9649-B7895E34D87A}</ProjectGuid>
+    <Description>Binding library of Okta.Oidc library for Xamarin.iOS</Description>
+    <PackageId>Xamarin.Okta.Oidc</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Josué Díaz</Authors>
+    <DevelopmentDependency>false</DevelopmentDependency>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Xamarin.Okta.Oidc</RootNamespace>
+    <UsePartialTypes>false</UsePartialTypes>
+    <AssemblyName>Xamarin.Okta.Oidc</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Owners>Josué Díaz</Owners>
+    <Copyright>Copyright © 2018</Copyright>
+    <PackageTags>Xamarin Xamarin.iOS Xamarin.Android Droid iOS Android Binding Okta Oidc OktaOidc Authentication Authenticate Auth</PackageTags>
+    <Title>Xamarin.Okta.Oidc</Title>
+    <PackageReleaseNotes>See: https://github.com/JosueDM94/Xamarin.Okta</PackageReleaseNotes>
+    <Summary>Binding library of Okta.Oidc library for Xamarin.iOS</Summary>
+    <PackageProjectUrl>https://github.com/JosueDM94/Xamarin.Okta</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/okta/okta-sdk-dotnet/master/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/JosueDM94/Xamarin.Okta/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging">
+      <Version>0.2.2</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OktaOidc.iOS\OktaOidc.iOS.csproj">
+      <Project>{48B4C944-20C3-4475-B52C-522BFB206EA1}</Project>
+      <Name>OktaOidc.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />
+</Project>

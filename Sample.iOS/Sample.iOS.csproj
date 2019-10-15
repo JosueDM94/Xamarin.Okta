@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-        <ProjectGuid>{4A75C727-0813-428C-A4A7-221F48010079}</ProjectGuid>
+        <ProjectGuid>{AEC5518C-D74A-4FB2-A291-BFB89D982DFE}</ProjectGuid>
         <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
         <TemplateGuid>{edc1b0fa-90cd-4038-8fad-98fe74adb368}</TemplateGuid>
         <OutputType>Exe</OutputType>
@@ -12,6 +12,7 @@
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
         <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
@@ -21,7 +22,6 @@
         <DefineConstants>DEBUG</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <ConsolePause>false</ConsolePause>
         <MtouchArch>x86_64</MtouchArch>
         <MtouchLink>None</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
@@ -34,7 +34,6 @@
         <WarningLevel>4</WarningLevel>
         <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
-        <ConsolePause>false</ConsolePause>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -44,7 +43,6 @@
         <DefineConstants>DEBUG</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <ConsolePause>false</ConsolePause>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <CodesignKey>iPhone Developer</CodesignKey>
@@ -58,7 +56,6 @@
         <WarningLevel>4</WarningLevel>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchArch>ARM64</MtouchArch>
-        <ConsolePause>false</ConsolePause>
         <CodesignKey>iPhone Developer</CodesignKey>
     </PropertyGroup>
     <ItemGroup>
@@ -70,7 +67,7 @@
         <Reference Include="System.Numerics.Vectors" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+      <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -116,9 +113,9 @@
             <Visible>false</Visible>
         </ImageAsset>
         <ImageAsset Include="Assets.xcassets\Icon.imageset\Contents.json" />
-        <ImageAsset Include="Assets.xcassets\Icon.imageset\dev.png" />
         <ImageAsset Include="Assets.xcassets\Icon.imageset\dev-1.png" />
         <ImageAsset Include="Assets.xcassets\Icon.imageset\dev-2.png" />
+        <ImageAsset Include="Assets.xcassets\Icon.imageset\dev.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -131,11 +128,11 @@
     <ItemGroup>
         <None Include="Info.plist" />
         <None Include="Entitlements.plist" />
-        <None Include="Okta.plist" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
+        <Compile Include="SceneDelegate.cs" />
         <Compile Include="ViewController.cs" />
         <Compile Include="ViewController.designer.cs">
             <DependentUpon>ViewController.cs</DependentUpon>
@@ -150,6 +147,9 @@
         <Project>{48B4C944-20C3-4475-B52C-522BFB206EA1}</Project>
         <Name>OktaOidc.iOS</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <BundleResource Include="Okta.plist" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

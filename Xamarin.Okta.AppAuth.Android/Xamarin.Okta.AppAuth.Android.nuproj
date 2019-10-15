@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DB3CF1A2-C366-44A9-9D7A-39045CD301E2}</ProjectGuid>
+    <Description>Binding library of Okta.AppAuth library for Xamarin.Android</Description>
+    <PackageId>Xamarin.Okta.AppAuth.Android</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Josué Díaz</Authors>
+    <DevelopmentDependency>false</DevelopmentDependency>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Xamarin.Okta.AppAuth.Android</RootNamespace>
+    <UsePartialTypes>false</UsePartialTypes>
+    <AssemblyName>Xamarin.Okta.AppAuth.Android</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Owners>Josué Díaz</Owners>
+    <Copyright>Copyright © 2018</Copyright>
+    <PackageTags>Xamarin Xamarin.iOS Xamarin.Android Droid iOS Android Binding Okta AppAuth Authentication Authenticate Auth</PackageTags>
+    <Title>Xamarin.Okta.AppAuth.Android</Title>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Summary>Binding library of Okta.AppAuth library for Xamarin.Android</Summary>
+    <PackageProjectUrl>https://github.com/JosueDM94/Xamarin.Okta</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/okta/okta-sdk-dotnet/master/icon.png</PackageIconUrl>
+    <PackageReleaseNotes>See: https://github.com/JosueDM94/Xamarin.Okta</PackageReleaseNotes>
+    <PackageLicenseUrl>https://github.com/JosueDM94/Xamarin.Okta/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging">
+      <Version>0.2.2</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppAuth.Android\AppAuth.Android.csproj">
+      <Project>{5176F4BD-9FD1-43D9-8819-6D52F520064F}</Project>
+      <Name>AppAuth.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />
+</Project>
